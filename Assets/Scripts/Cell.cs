@@ -27,6 +27,8 @@ public class Cell : MonoBehaviour
             case 2: color = yellow_color; break;
             case 3: color = blue_color; break;
         }
+        if (id == -1)
+            color = Color.gray;
         top_image.color = color;
 
         text.text = (id + 1).ToString();

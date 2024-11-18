@@ -18,16 +18,19 @@ public class Plane : MonoBehaviour
     public Image top_image;
     public float move_speed;
 
+    //[HideInInspector]
+    public int cell_index = 0;
+
     void Start()
     {
-        //int num = id % 4;
-        //switch (num)
-        //{
-        //    case 0: color = green_color; break;
-        //    case 1: color = red_color; break;
-        //    case 2: color = yellow_color; break;
-        //    case 3: color = blue_color; break;
-        //}
+        int num = group % 4;
+        switch (num)
+        {
+            case 0: color = green_color; break;
+            case 1: color = red_color; break;
+            case 2: color = yellow_color; break;
+            case 3: color = blue_color; break;
+        }
         top_image.color = color;
     }
 
@@ -36,8 +39,18 @@ public class Plane : MonoBehaviour
 
     }
 
-    public void MovePlane(Vector3 dst)
+    public bool MovePlane(Cell dst_cell)
     {
-        transform.position = Vector2.Lerp(transform.position, dst, Time.deltaTime * move_speed);
+        transform.position = Vector2.Lerp(
+            transform.position,
+            dst_cell.transform.position,
+            Time.deltaTime * move_speed);
+        if (Vector3.Distance(transform.position, dst_cell.transform.position) < 1)
+        {
+            transform.position = dst_cell.transform.position;
+            cell_index = dst_cell.id + 1;
+            return true;
+        }
+        return false;
     }
 }
